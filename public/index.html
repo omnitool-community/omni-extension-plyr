@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Omnitool Plyr Extension</title>
+    <meta
+      name="description"
+      property="og:description"
+      content="A simple HTML5 media player with custom controls and WebVTT captions."
+    />
+    <meta name="author" content="Sam Potts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Icons -->
+    <link rel="icon" href="./img/favicon.ico" />
+    <link rel="icon" type="image/png" href="./img//32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./img/16x16.png" sizes="16x16" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./img/180x180.png" />
+
+    <link rel="stylesheet" href="./dist/plyr.css" />
+
+    <!-- Preload -->
+    <link
+      rel="preload"
+      as="font"
+      crossorigin
+      type="font/woff2"
+      href="./font/gordita-medium.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      crossorigin
+      type="font/woff2"
+      href="./font/gordita-bold.woff2"
+    />
+  </head>
+
+  <body>
+    <div style="margin-top: 100px;">
+      <!--button style="margin: 10px" onclick="window.parent.postMessage({type:'close_editor_extension'},'*')">
+        Back
+      </button-->
+      <h1 id="title" style="margin:10px; font-family: sans-serif;"></h1>
+      <audio id="player" controls></audio>
+      <div stlye="margin-top:10px">
+        <pre>
+          <code id="objectInfo">
+          </code>
+        </pre>
+
+      </div>
+    </div>
+  </body>
+  <script type="module">
+    import * as Plyr from './dist/plyr.js';
+
+    const args = new URLSearchParams(location.search);
+    const params = JSON.parse(args.get('q'));
+
+    if (params.sources) {
+
+      document.getElementById('title').innerHTML = params.sources[0].fileName;
+
+      document.getElementById('objectInfo').innerHTML = JSON.stringify(params.sources, null, 2);
+
+      const player = new window.Plyr('#player',{
+        autoplay: true,
+
+      });
+      player.source = {
+        type: 'audio',
+        sources: params.sources.map((source) => {
+          return {
+            src: source.url,
+            type: source.mimeType,
+            size: source.size,
+          };
+        }),
+      };
+    }
+  </script>
+</html>

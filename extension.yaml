@@ -2,6 +2,6 @@ title: Plyr (Audio player) extension
 version: 0.0.1
 description: Adds an audio player based on 'plyr'.
 author: Georg Zoeller
-origin: https://github.com/omnitool-community/omni-extension-plyr
+origin: https://github.com/omnitool-community/omni-extension-plyr.git
 client:
   addToWorkbench: false
